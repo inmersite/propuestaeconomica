@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BODEGA 17 × Inmersite — Exploración Digital</title>
+<style>
+:root{
+  --bg:#070708;--panel:#101012;--text:#f4f4f1;--muted:#a3a3a0;
+  --line:rgba(255,255,255,.12);--accent:#4D7CFF;--accent2:#FF2FB3;
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.10);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 22%, #4D7CFF22, transparent 45%),
+    radial-gradient(circle at 82% 78%, #FF2FB322, transparent 45%),
+    radial-gradient(circle at 50% 50%, #9b4dff10, transparent 60%);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:1000;background:linear-gradient(90deg, #4D7CFF, #9b4dff, #FF2FB3);}
+.nav{
+  position:fixed;top:0;left:0;right:0;height:78px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 5vw;z-index:900;
+  background:rgba(15,15,18,0.45);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  box-shadow:0 8px 32px rgba(0,0,0,0.35);
+}
+.logo{font-weight:900;letter-spacing:-.04em;cursor:pointer;transition:opacity .25s ease, transform .25s ease;}
+.logo:hover{opacity:.75; transform:scale(1.02);}
+.navlinks{display:flex;gap:26px;font-size:12px;color:#aaa}
+.navlinks a{position:relative;padding:4px 0;transition:color .3s;cursor:pointer}
+.navlinks a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:linear-gradient(90deg, #4D7CFF, #FF2FB3);transition:width .4s cubic-bezier(.25,.46,.45,.94);border-radius:4px;}
+.navlinks a.active::after,.navlinks a:hover::after{width:100%}
+.navlinks a:hover{color:#fff}
+.menu{display:none;border:1px solid var(--glass-border);background:var(--glass-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;border-radius:50%;width:42px;height:42px}
+.hero{min-height:100svh;position:relative;display:grid;place-items:center;padding:120px 7vw 80px;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 25% 45%,#4D7CFF12,transparent 30%),radial-gradient(circle at 75% 55%,#FF2FB312,transparent 30%);pointer-events:none}
+.heroContent{position:relative;max-width:1100px;width:100%;z-index:2}
+.kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:24px}
+h1{font-size:clamp(54px,10vw,145px);line-height:.83;letter-spacing:-.075em;max-width:1000px}
+.hero h1 em{font-style:normal;color:#858585}
+.heroBottom{display:flex;justify-content:space-between;align-items:end;margin-top:55px;gap:30px}
+.heroBottom p{max-width:440px;color:#aaa;line-height:1.6;font-size:15px}
+.scroll{position:absolute;bottom:28px;left:7vw;font-size:10px;color:#777;letter-spacing:.16em;text-transform:uppercase}
+
+section[id]{ scroll-margin-top: 90px; }
+section{padding:130px 7vw;border-top:1px solid var(--line)}
+.sectionHead{display:flex;justify-content:space-between;gap:40px;margin-bottom:70px}
+.num{
+  font-size:clamp(13px, 1.3vw, 17px);
+  color:var(--accent);
+  letter-spacing:.18em;
+  font-weight:800;
+  text-transform:uppercase;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.num::before{
+  content:"";
+  display:inline-block;
+  width:28px;
+  height:2px;
+  background:linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius:2px;
+}
+.sectionHead h2{font-size:clamp(42px,6vw,86px);line-height:.9;letter-spacing:-.06em;max-width:850px}
+.sectionHead .subHead{color:#888;font-size:clamp(16px, 1.5vw, 20px);line-height:1.5;margin-top:18px;max-width:700px;font-weight:400;letter-spacing:-.01em;}
+
+.ecoTitle{
+  font-size: clamp(56px, 11vw, 160px);
+  line-height: .86;
+  letter-spacing: -.055em;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  max-width: 1100px;
+  margin: 0 0 12px;
+}
+.ecoTitle span{
+  background: linear-gradient(90deg, #4D7CFF, #FF2FB3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+.subHead{
+  color:#999;
+  font-size: clamp(16px, 1.5vw, 22px);
+  line-height: 1.5;
+  max-width: 720px;
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+
+.intro{max-width:700px;margin-left:auto;color:#aaa;font-size:18px;line-height:1.7}
+.statement{font-size:clamp(32px,5vw,70px);letter-spacing:-.05em;line-height:1.02;max-width:1000px}
+.statement strong{color:#fff}.statement span{color:#666}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{
+  min-height:300px;
+  background:rgba(255,255,255,0.035);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid var(--glass-border);
+  border-radius:24px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;transition:.35s;
+  box-shadow:var(--glass-shadow);
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;inset:0;border-radius:24px;pointer-events:none;
+  background:linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0) 40%);
+}
+.card:hover{transform:translateY(-8px);border-color:rgba(255,255,255,0.22);box-shadow:0 20px 50px rgba(0,0,0,0.45)}
+.card .icon{font-size:52px; margin-bottom:16px; display:flex; align-items:center; justify-content:center; width:70px; height:70px; border-radius:16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.card .icon svg{width:36px;height:36px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.card h3{font-size:25px;letter-spacing:-.04em}.card p{color:#888;line-height:1.55;font-size:14px}
+.card small{color:var(--accent);letter-spacing:.1em}
+.darkFeature{background:transparent;position:relative;overflow:hidden}
+.featureGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+.visual{
+  min-height:550px;border-radius:30px;position:relative;overflow:hidden;
+  border:1px solid var(--glass-border);
+  background:
+    radial-gradient(circle at 25% 40%,#4D7CFF25,transparent 28%),
+    radial-gradient(circle at 75% 60%,#FF2FB325,transparent 28%),
+    rgba(15,15,20,0.5);
+  backdrop-filter:blur(16px) saturate(150%);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+  box-shadow:var(--glass-shadow);
+}
+.allianceVisual{display:flex;align-items:center;justify-content:center}
+.visualLines{position:absolute;inset:12%;border:1px solid #4D7CFF55;border-radius:24px;transform:skewY(-5deg)}
+.visualLines:before,.visualLines:after{content:"";position:absolute;left:8%;right:8%;height:1px;background:linear-gradient(90deg,#4D7CFF,#FF2FB3)}
+.visualLines:before{top:35%}.visualLines:after{top:65%}
+.visualText{position:relative;text-align:center;font-size:clamp(30px,4vw,56px);font-weight:900;letter-spacing:-.07em;line-height:.9}
+.visualText span{background:linear-gradient(90deg,#4D7CFF,#FF2FB3);-webkit-background-clip:text;background-clip:text;color:transparent}
+.visual label{position:absolute;bottom:24px;left:25px;font-size:10px;color:#777;letter-spacing:.18em}
+.featureCopy h3{font-size:clamp(40px,5vw,72px);line-height:.92;letter-spacing:-.06em;margin:15px 0 25px}
+.featureCopy p{color:#999;line-height:1.7;max-width:550px}
+.priceWrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.priceCard{
+  background:rgba(255,255,255,0.035);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border:1px solid var(--glass-border);
+  border-radius:30px;padding:45px;
+  box-shadow:var(--glass-shadow);
+  position:relative;overflow:hidden;
+}
+.priceCard::before{
+  content:"";position:absolute;inset:0;border-radius:30px;pointer-events:none;
+  background:linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0) 45%);
+}
+.priceCard.special{
+  background:rgba(30,30,40,0.45);
+  border-color:rgba(77,124,255,0.35);
+  box-shadow:0 20px 100px #4D7CFF18,0 20px 100px #FF2FB310, var(--glass-shadow);
+}
+.priceLabel{font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.15em}
+.old{font-size:20px;color:#666;text-decoration:line-through;margin-top:30px}
+.price{font-size:clamp(54px,7vw,100px);font-weight:900;letter-spacing:-.07em;line-height:.9;margin:10px 0 20px}
+.price small{font-size:16px;letter-spacing:0;color:#888}
+.saving{display:inline-block;padding:7px 10px;border-radius:100px;background:linear-gradient(90deg,#4D7CFF18,#FF2FB318);color:#fff;font-size:11px;font-weight:800;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.includes{margin-top:35px;display:grid;gap:13px;color:#aaa;font-size:14px}
+.includes div:before{content:"✓";color:var(--accent);margin-right:10px}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:20px;overflow:hidden;border:1px solid var(--glass-border);}
+.step{
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(12px) saturate(140%);
+  -webkit-backdrop-filter:blur(12px) saturate(140%);
+  padding:30px;min-height:190px;
+}
+.step b{font-size:12px;color:var(--accent)}.step h3{margin:35px 0 12px;font-size:22px}.step p{color:#777;font-size:13px;line-height:1.5}
+.alliance{background:linear-gradient(120deg,#4D7CFF,#FF2FB3);color:#fff;text-align:center;padding:150px 7vw;border:0;position:relative;overflow:hidden}
+.alliance::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 40%, rgba(255,255,255,0.18), transparent 60%);pointer-events:none;}
+.alliance .kicker{
+  color:#ffffff;
+  font-size:clamp(13px, 1.3vw, 17px);
+  font-weight:800;
+  letter-spacing:.2em;
+  text-shadow:0 2px 20px rgba(0,0,0,0.25);
+  position:relative;z-index:1;
+}
+.alliance h2{font-size:clamp(50px,9vw,130px);line-height:.82;letter-spacing:-.075em;position:relative;z-index:1}
+.alliance p{max-width:650px;margin:35px auto;color:#ffffffcc;line-height:1.6;position:relative;z-index:1}
+.alliance .ctaWrap{display:flex;justify-content:center;position:relative;z-index:2;margin-top:10px;}
+.notes{display:grid;grid-template-columns:1fr 2fr;gap:70px}
+.notes h2{font-size:50px;letter-spacing:-.06em}
+.notes ul{
+  list-style:none;display:grid;gap:18px;color:#888;line-height:1.6;font-size:14px;
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border:1px solid var(--glass-border);
+  border-radius:24px;padding:35px;
+  box-shadow:var(--glass-shadow);
+}
+.notes li{padding-left:25px;position:relative}.notes li:before{content:"—";position:absolute;left:0;color:var(--accent)}
+footer{padding:45px 7vw;display:flex;justify-content:space-between;color:#666;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.reveal{opacity:0;transform:translateY(35px);transition:opacity .8s ease,transform .8s ease}.reveal.show{opacity:1;transform:none}
+
+/* Botón Subir */
+.backTop{
+ position:fixed;right:28px;bottom:100px;z-index:1000;width:58px;height:58px;
+ border:1px solid var(--glass-border);
+ background:rgba(15,15,20,0.4);
+ backdrop-filter:blur(18px) saturate(160%);
+ -webkit-backdrop-filter:blur(18px) saturate(160%);
+ color:#fff;border-radius:50%;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
+ cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px);
+ transition:.3s;box-shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+.backTop span{font-size:25px;line-height:20px}.backTop small{font-size:7px;letter-spacing:.15em}
+.backTop.visible{opacity:1;visibility:visible;transform:none}
+.backTop:hover{transform:translateY(-4px) scale(1.05);border-color:rgba(255,47,179,0.6);box-shadow:0 12px 35px rgba(255,47,179,0.25);}
+
+/* ============================================================
+   BOTÓN FLOTANTE WHATSAPP — Aparece tras el botón SUBIR
+   ============================================================ */
+.whatsappFloat{
+  position:fixed;
+  right:28px;
+  bottom:28px;
+  z-index:1100;
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:
+    0 8px 25px rgba(37, 211, 102, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+  transition: transform .5s cubic-bezier(.25,.46,.45,.94),
+              box-shadow .3s ease,
+              opacity .5s ease,
+              visibility .5s ease;
+  text-decoration:none;
+  opacity:0;
+  visibility:hidden;
+  transform: translateY(30px) scale(0.8);
+  pointer-events:none;
+}
+.whatsappFloat.visible{
+  opacity:1;
+  visibility:visible;
+  transform: translateY(0) scale(1);
+  pointer-events:auto;
+}
+.whatsappFloat svg{
+  width:34px;
+  height:34px;
+  fill:#fff;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+.whatsappFloat:hover{
+  transform: translateY(-4px) scale(1.08);
+  box-shadow:
+    0 12px 35px rgba(37, 211, 102, 0.65),
+    0 6px 18px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+}
+.whatsappFloat::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:inherit;
+  animation: waPulse 2.2s ease-out infinite;
+  z-index:-1;
+  opacity:.7;
+}
+.whatsappFloat .waTooltip{
+  position:absolute;
+  right: calc(100% + 14px);
+  top:50%;
+  transform: translateY(-50%) translateX(8px);
+  background: rgba(20,20,26,0.95);
+  color:#fff;
+  padding:9px 14px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .25s ease, transform .25s ease;
+  border:1px solid rgba(37,211,102,0.35);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+.whatsappFloat:hover .waTooltip{
+  opacity:1;
+  transform: translateY(-50%) translateX(0);
+}
+
+@keyframes waPulse{
+  0%{ transform: scale(1); opacity:.7;}
+  70%{ transform: scale(1.55); opacity:0;}
+  100%{ transform: scale(1.55); opacity:0;}
+}
+
+/* ============================================================
+   BOTÓN MAGENTA SÓLIDO
+   ============================================================ */
+.btn-glass {
+  font-family: Inter, Arial, sans-serif;
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 1.15em 2.3em;
+  min-height: 56px;
+  min-width: 220px;
+  border-radius: 18px;
+  cursor: pointer;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  position: relative;
+  z-index: 1;
+  transition: background .25s ease, box-shadow .25s ease, transform .25s ease;
+  background: #FF2FB3;
+  border: 1.5px solid #ff52c1;
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.35),
+    0 4px 14px rgba(255, 47, 179, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+.btn-glass:hover{
+  background: #ff52c1;
+  border-color: #ff7ad0;
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.4),
+    0 6px 22px rgba(255, 47, 179, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.btn-glass:active{
+  transform: translateY(0) scale(0.99);
+  background: #e0269d;
+  border-color: #c81f88;
+  box-shadow:
+    inset 0 3px 10px rgba(120, 0, 80, 0.45),
+    0 2px 8px rgba(255, 47, 179, 0.35);
+}
+.btn-glass:focus-visible{
+  outline: none;
+  border-color: #fff;
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,0.9),
+    0 0 0 6px #FF2FB3,
+    0 0 22px rgba(255, 47, 179, 0.5);
+}
+.btn-glass .arrow{
+  font-size: 1.15em;
+  line-height: 1;
+  display: inline-block;
+  transition: transform .3s ease;
+}
+.btn-glass:hover .arrow{
+  transform: translate(3px, -3px);
+}
+
+.ctaWrap{display:flex; justify-content:flex-start; margin-top:10px; flex-wrap:wrap; gap:12px; position:relative; z-index:5;}
+.priceCard .ctaWrap{margin-top:35px;}
+.alliance .ctaWrap{display:flex; justify-content:center; position:relative; z-index:5; margin-top:10px;}
+.heroBottom .btn-glass{flex-shrink:0;}
+
+@media(max-width:800px){
+ .navlinks{display:none}.menu{display:block}.hero{padding-left:6vw;padding-right:6vw}.heroBottom{flex-direction:column;align-items:flex-start}
+ section{padding:90px 6vw}.sectionHead{display:block;margin-bottom:45px}.sectionHead h2{margin-top:20px}.intro{margin-top:35px;margin-left:0}
+ .cards,.priceWrap,.featureGrid{grid-template-columns:1fr}.visual{min-height:400px}.timeline{grid-template-columns:1fr 1fr}.notes{grid-template-columns:1fr;gap:35px}
+ footer{padding:35px 6vw;display:block}.orb{width:90vw}
+ .btn-glass{ width:100%; min-width:0; }
+ .ctaWrap{width:100%;}
+ .whatsappFloat{ width:58px; height:58px; right:18px; bottom:18px;}
+ .whatsappFloat svg{ width:30px; height:30px;}
+ .whatsappFloat .waTooltip{ display:none;}
+ .backTop{ right:18px; bottom:88px; width:50px; height:50px;}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<nav class="nav">
+  <a href="#" class="logo" id="logoHome" aria-label="Ir al inicio">Inmersite</a>
+  <div class="navlinks">
+    <a href="#propuesta" data-section="propuesta">Propuesta</a>
+    <a href="#alcance" data-section="alcance">Alcance</a>
+    <a href="#inversion" data-section="inversion">Inversión</a>
+    <a href="#alianza" data-section="alianza">Alianza</a>
+  </div>
+  <button class="menu" onclick="document.getElementById('inversion').scrollIntoView()">↓</button>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="heroContent">
+    <div class="kicker reveal">Programa Estratégico de Exploración Digital y propuesta económica </div>
+    <h1 class="reveal">BODEGA 17<br><em>×</em> Inmersite</h1>
+    <div class="heroBottom reveal">
+      <p>Una primera experiencia audiovisual para explorar cómo el CGI, el 3D y la innovación visual pueden convertirse en herramientas de promoción y ventas para BODEGA 17.</p>
+      <div class="ctaWrap">
+        <a class="btn-glass" href="https://wa.link/akmttq" target="_blank" rel="noopener noreferrer" aria-label="Iniciar proyecto">
+          Iniciar Proyecto <span class="arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll">Scroll o desliza para explorar ↓</div>
+</header>
+
+<section id="propuesta">
+  <div class="sectionHead reveal">
+    <div class="num">01 / PROPUESTA</div>
+    <h2>Explorar juntos.<br>Crear algo diferente.</h2>
+  </div>
+  <p class="statement reveal"><strong>No queremos producir solamente un video.</strong> Queremos iniciar una exploración digital que nos permita descubrir nuevas formas de <span>comunicar, promocionar y vender.</span></p>
+</section>
+
+<section class="darkFeature">
+  <div class="featureGrid">
+    <div class="visual reveal allianceVisual">
+      <div class="visualLines"></div>
+      <div class="visualText">BODEGA 17<br><span>× Inmersite</span></div>
+      <label>CGI / 3D / MOTION / DIGITAL EXPERIENCE</label>
+    </div>
+    <div class="featureCopy reveal">
+      <div class="num">02 / ALIANZA</div>
+      <h3>Un proyecto piloto con visión de largo plazo.</h3>
+      <p>La primera producción funciona como punto de partida para identificar nuevas oportunidades entre BODEGA 17 e Inmersite: contenido CGI, campañas, experiencias visuales, pantallas, activaciones, experiencias interactivas e integración de inteligencia artificial.</p>
+    </div>
+  </div>
+</section>
+
+<section id="alcance">
+  <div class="sectionHead reveal">
+    <div class="num">03 / ALCANCE</div>
+    <h2>Todo lo necesario para construir la experiencia.</h2>
+  </div>
+  <div class="cards">
+    <article class="card reveal">
+        <div class="icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="9" cy="12" r="3"/><path d="M15 8l2 2-2 2" stroke-linejoin="round"/><path d="M17 16h2" stroke-linecap="round"/></svg>
+        </div>
+        <div><small>01</small><h3>Producción audiovisual</h3><p>Tomas en el lugar suministradas por el aliado. Registro mediante fotografía y/o video.</p></div>
+    </article>
+    <article class="card reveal">
+        <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M3 12L12 3l9 9-9 9-9-9z"/><path d="M12 3v18" stroke-linejoin="round"/><path d="M3 12h18" stroke-linejoin="round"/></svg>
+        </div>
+        <div><small>02</small><h3>Elementos 3D</h3><p>Integración de elementos 3D.</p></div>
+    </article>
+    <article class="card reveal">
+        <div class="icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M4 12h16" stroke-linejoin="round"/><path d="M12 4v16" stroke-linejoin="round"/><path d="M20 12a8 8 0 01-8 8 8 8 0 01-8-8 8 8 0 018-8 8 8 0 018 8z" stroke-linejoin="round"/></svg>
+        </div>
+        <div><small>03</small><h3>Animación</h3><p>Animación de elementos 3D y movimiento de cámara y/o elementos.</p></div>
+    </article>
+    <article class="card reveal">
+        <div class="icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2v20" stroke-linejoin="round"/><path d="M2 12h20" stroke-linejoin="round"/><path d="M12 2a15 15 0 015 10 15 15 0 01-5 10 15 15 0 01-5-10 15 15 0 015-10z" stroke-linejoin="round"/></svg>
+        </div>
+        <div><small>04</small><h3>Look visual</h3><p>Texturas, materiales e iluminación.</p></div>
+    </article>
+    <article class="card reveal">
+        <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M6 20L18 4" stroke-linejoin="round"/><circle cx="6" cy="20" r="2" fill="currentColor" fill-opacity="0.5"/><circle cx="18" cy="4" r="2" fill="currentColor" fill-opacity="0.5"/><path d="M6 20l12-16" stroke-linejoin="round"/></svg>
+        </div>
+        <div><small>05</small><h3>Render</h3><p>Renderización.</p></div>
+    </article>
+    <article class="card reveal">
+        <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14" stroke-linejoin="round"/><path d="M12 5v14" stroke-linejoin="round"/><path d="M19 12a7 7 0 01-7 7 7 7 0 01-7-7 7 7 0 017-7 7 7 0 017 7z" stroke-linejoin="round"/></svg>
+        </div>
+        <div><small>06</small><h3>Entregable</h3><p>Video CGI con elementos 3D. Duración estimada entre 15 y 30 segundos.</p></div>
+    </article>
+  </div>
+</section>
+
+<section id="inversion">
+  <div class="sectionHead reveal">
+    <div class="num">04 / PROPUESTA ECONÓMICA</div>
+  </div>
+  <h2 class="ecoTitle reveal">PROPUESTA<br><span>ECONÓMICA</span></h2>
+  <p class="subHead reveal">inversión estimada.</p>
+
+  <div class="priceWrap" style="margin-top:70px;">
+    <div class="priceCard reveal">
+      <div class="priceLabel">Valor individual de referencia</div>
+      <div class="old">$4.970.000 COP</div>
+      <div class="price">$4.970.000 <small>/ video</small></div>
+      <div class="includes"><div>Video CGI con elementos 3D</div><div>Duración estimada 15–30 segundos</div><div>Alcance descrito</div></div>
+    </div>
+    <div class="priceCard special reveal">
+      <div class="priceLabel">Alianza + Programa · Propuesta especial</div>
+      <div class="price">$2.970.000 <small>COP</small></div>
+      <span class="saving">AHORRO DE $2.970.000 COP</span>
+      <div class="includes"><div>Proyecto de exploración digital</div><div>Producción de contenido CGI 3D</div><div>Hasta 2 ciclos de cambios</div><div>Alianza</div></div>
+      <div class="ctaWrap">
+        <a class="btn-glass" href="https://wa.link/akmttq" target="_blank" rel="noopener noreferrer" aria-label="Aceptar y avanzar">
+          Aceptar y Avanzar <span class="arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sectionHead reveal">
+    <div class="num">05 / METODOLOGÍA</div>
+    <h2>Del descubrimiento a la próxima oportunidad.</h2>
+  </div>
+  <div class="timeline">
+    <div class="step reveal"><b>01</b><h3>Descubrimiento</h3><p>Exploración.</p></div>
+    <div class="step reveal"><b>02</b><h3>Concepto</h3><p>Definimos idea, dirección y referencias.</p></div>
+    <div class="step reveal"><b>03</b><h3>Producción</h3><p>Elementos 3D, Animación, Look y Render.</p></div>
+    <div class="step reveal"><b>04</b><h3>Integración</h3><p>Combinamos producción audiovisual y CGI 3D.</p></div>
+    <div class="step reveal"><b>05</b><h3>Finalización</h3><p>Render, edición y entrega de la pieza.</p></div>
+    <div class="step reveal"><b>06</b><h3>Validación</h3><p>Validamos.</p></div>
+    <div class="step reveal"><b>07</b><h3>Proyección</h3><p>Identificamos nuevas oportunidades.</p></div>
+    <div class="step reveal"><b>08</b><h3>Alianza</h3><p>Trabajemos juntos.</p></div>
+  </div>
+</section>
+
+<section id="alianza" class="alliance">
+  <div class="kicker reveal">BODEGA 17 × Inmersite</div>
+  <h2 class="reveal">Esto puede ser<br>solo el comienzo.</h2>
+  <p class="reveal">Construir una relación de largo plazo basada en innovación, experimentación y generación de nuevas oportunidades.</p>
+  <div class="ctaWrap reveal">
+    <a class="btn-glass" href="https://wa.link/akmttq" target="_blank" rel="noopener noreferrer" aria-label="Iniciar alianza">
+      Iniciar Alianza <span class="arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<section>
+  <div class="notes">
+    <div class="reveal"><div class="num">06 / CONSIDERACIONES</div><h2>Antes de comenzar.</h2></div>
+    <ul class="reveal">
+      <li>El valor puede variar según las ideas, nivel de complejidad y alcance final.</li>
+      <li>El valor no incluye IVA, retenciones ni costos relacionados con seguridad social; estos se adicionarán de ser necesario.</li>
+      <li>El contenido incluye hasta dos (2) ciclos de cambios.</li>
+      <li>Las tomas en el lugar serán suministradas por el aliado.</li>
+      <li>Propuesta confidencial: dirigida únicamente al destinatario. Se solicita no compartirla de forma parcial o total.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div>POWERED BY INMERSITE · INNOVACIÓN VISUAL, CGI 3D Y EXPERIENCIAS DIGITALES</div>  
+</footer>
+
+<!-- Botón Subir -->
+<button class="backTop" id="backTop" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <span>↑</span>
+  <small>SUBIR</small>
+</button>
+
+<!-- Botón flotante WhatsApp -->
+<a class="whatsappFloat" id="whatsappFloat" href="https://wa.link/akmttq" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+  <span class="waTooltip">Escríbenos</span>
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.13-.33.244-.73.244-1.088 0-.058-.015-.1-.058-.143-.145-.147-2.135-1.26-2.42-1.375zm-3.06 10.31h-.014a11.845 11.845 0 0 1-6.022-1.65l-.432-.256-4.474 1.176 1.19-4.36-.28-.446a11.818 11.818 0 0 1-1.816-6.316c.002-6.55 5.34-11.88 11.9-11.88 3.178 0 6.162 1.24 8.407 3.49a11.81 11.81 0 0 1 3.478 8.402c-.003 6.55-5.34 11.88-11.937 11.88zM27.31 4.69A15.717 15.717 0 0 0 16.05 0C7.376 0 .326 7.048.323 15.712c0 2.768.723 5.47 2.096 7.852L0 32l8.695-2.28a15.74 15.74 0 0 0 7.348 1.87h.007c8.673 0 15.724-7.05 15.727-15.717a15.66 15.66 0 0 0-4.466-11.183z"/>
+  </svg>
+</a>
+
+<script>
+/* === Variables de control === */
+const progress = document.getElementById('progress');
+const whatsappFloat = document.getElementById('whatsappFloat');
+const backTop = document.getElementById('backTop');
+
+let backTopShown = false;       // Si el botón SUBIR ya apareció al menos una vez
+let whatsappDelayDone = false;  // Si ya pasó el delay de aparición de WhatsApp
+
+/* Umbrales */
+const SHOW_BACKTOP_AT = 72;   // % donde aparece SUBIR
+const SHOW_WHATSAPP_AT = 82;  // % donde WhatsApp puede aparecer (tras delay)
+const WHATSAPP_DELAY_MS = 1200; // Delay en ms después de que aparezca SUBIR
+
+/* === Scroll handler === */
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  const pct = scrollY / h * 100;
+  progress.style.width = pct + '%';
+
+  /* --- Botón SUBIR --- */
+  const showBack = pct > SHOW_BACKTOP_AT;
+  backTop.classList.toggle('visible', showBack);
+
+  /* Cuando SUBIR aparece por primera vez, activamos el delay para WhatsApp */
+  if (showBack && !backTopShown) {
+    backTopShown = true;
+    setTimeout(() => {
+      whatsappDelayDone = true;
+      // Si al terminar el delay el scroll ya está lo suficientemente abajo,
+      // mostramos el botón de WhatsApp.
+      const currentPct = (scrollY / h) * 100;
+      if (currentPct > SHOW_WHATSAPP_AT) {
+        whatsappFloat.classList.add('visible');
+      }
+    }, WHATSAPP_DELAY_MS);
+  }
+
+  /* --- Botón WhatsApp --- */
+  if (!whatsappDelayDone) {
+    // Mientras no pase el delay, nunca se muestra
+    whatsappFloat.classList.remove('visible');
+  } else {
+    // Una vez pasado el delay, su visibilidad depende del scroll
+    whatsappFloat.classList.toggle('visible', pct > SHOW_WHATSAPP_AT);
+  }
+
+  /* --- Sección activa en el nav --- */
+  const sections = ['propuesta', 'alcance', 'inversion', 'alianza'];
+  const scrollPos = window.scrollY + 150;
+  let currentSection = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && scrollPos >= el.offsetTop && scrollPos < el.offsetTop + el.offsetHeight) {
+      currentSection = id;
+    }
+  });
+  document.querySelectorAll('.navlinks a').forEach(link => {
+    link.classList.toggle('active', link.dataset.section === currentSection);
+  });
+});
+
+/* === Animación reveal === */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show') })
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* === Scroll suave con compensación del nav fijo === */
+document.querySelectorAll('.navlinks a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    const navHeight = 78;
+    const targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight;
+    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+  });
+});
+
+/* === Logo clickeable === */
+document.getElementById('logoHome').addEventListener('click', e => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+</body>
+</html>
